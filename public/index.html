@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Decision Companion System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Decision Companion System</h1>
+
+<section>
+  <h2>Decision Name</h2>
+  <input type="text" id="decisionName" placeholder="e.g. Laptop Selection">
+</section>
+
+<section>
+  <h2>Criteria</h2>
+  <div id="criteriaList"></div>
+  <button onclick="addCriterion()">Add Criterion</button>
+</section>
+
+<section>
+  <h2>Options</h2>
+  <div id="optionsList"></div>
+  <button onclick="addOption()">Add Option</button>
+</section>
+
+<section>
+  <h2>Values Matrix</h2>
+  <div id="matrixContainer"></div>
+</section>
+
+<button onclick="evaluateDecision()">Evaluate</button>
+
+<section>
+  <h2>Results</h2>
+  <div id="results"></div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
