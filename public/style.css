@@ -1,23 +1,109 @@
 body {
-  font-family: Arial;
-  margin: 40px;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f2f5;
+  color: #333;
 }
 
-section {
+header {
+  text-align: center;
   margin-bottom: 30px;
 }
 
+#decisionName {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  font-size: 1.4rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.column {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  min-height: 60vh;
+}
+
+.instruction {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
 input, select {
-  margin: 5px;
-  padding: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.btn-add {
+  width: 100%;
+  padding: 10px;
+  background: #f8f9fa;
+  border: 1px dashed #bbb;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-add:hover { background: #e9ecef; }
+
+.btn-remove {
+  background: #ff7675;
+  color: white;
+  border: none;
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-evaluate {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.matrix-wrapper {
+  margin-top: 30px;
+  overflow-x: auto;
 }
 
 table {
+  width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
 }
 
-td, th {
-  border: 1px solid #ccc;
-  padding: 6px;
+th, td {
+  border: 1px solid #eee;
+  padding: 8px;
+  text-align: center;
+}
+
+.result-column {
+  background-color: #ffffff;
 }

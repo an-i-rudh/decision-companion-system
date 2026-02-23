@@ -1,42 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Decision Companion System</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Decision Companion System</h1>
+<header>
+  <h1>Decision Companion System</h1>
+  <div class="header-input">
+    <input type="text" id="decisionName" placeholder="Enter Decision Name">
+  </div>
+</header>
 
-<section>
-  <h2>Decision Name</h2>
-  <input type="text" id="decisionName" placeholder="e.g. Laptop Selection">
-</section>
+<main class="container">
+  <section class="column">
+    <h2>1. Criteria</h2>
+    <p class="instruction">Define what matters (e.g., Price, Quality).</p>
+    <div id="criteriaList"></div>
+    <button class="btn-add" onclick="addCriterion()">+ Add Criterion</button>
+  </section>
 
-<section>
-  <h2>Criteria</h2>
-  <div id="criteriaList"></div>
-  <button onclick="addCriterion()">Add Criterion</button>
-</section>
+  <section class="column">
+    <h2>2. Options & Data</h2>
+    <p class="instruction">List your choices and rate them.</p>
+    <div id="optionsList"></div>
+    <button class="btn-add" onclick="addOption()">+ Add Option</button>
+    
+    <div class="matrix-wrapper">
+      <h3>Values Matrix</h3>
+      <div id="matrixContainer"></div>
+    </div>
+    
+    
+  </section>
 
-<section>
-  <h2>Options</h2>
-  <div id="optionsList"></div>
-  <button onclick="addOption()">Add Option</button>
-</section>
-
-<section>
-  <h2>Values Matrix</h2>
-  <div id="matrixContainer"></div>
-</section>
-
-<button onclick="evaluateDecision()">Evaluate</button>
-
-<section>
-  <h2>Results</h2>
-  <div id="results"></div>
-</section>
-
+  <section class="column result-column">
+    <h2>3. Final Ranking</h2>
+    <p class="instruction">The best choice based on your data.</p>
+    <div id="results"></div>
+  </section>
+</main>
+<button class="btn-evaluate" onclick="evaluateDecision()">Evaluate Results</button>
 <script src="script.js"></script>
 </body>
 </html>
