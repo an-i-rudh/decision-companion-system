@@ -4,7 +4,6 @@ let options = [];
 function addCriterion() {
   const id = Date.now();
   criteria.push({ id });
-
   const container = document.getElementById("criteriaList");
   const div = document.createElement("div");
   div.id = `c-row-${id}`;
@@ -30,7 +29,6 @@ function removeCriterion(id) {
 function addOption() {
   const id = Date.now();
   options.push({ id });
-
   const container = document.getElementById("optionsList");
   const div = document.createElement("div");
   div.id = `o-row-${id}`;
@@ -53,14 +51,12 @@ function renderMatrix() {
   const container = document.getElementById("matrixContainer");
   container.innerHTML = "";
   if (criteria.length === 0 || options.length === 0) return;
-
   let table = "<table><tr><th>Option</th>";
   criteria.forEach(c => {
     const name = document.getElementById(`c-name-${c.id}`)?.value || "Criterion";
     table += `<th>${name}</th>`;
   });
   table += "</tr>";
-
   options.forEach(o => {
     const name = document.getElementById(`o-name-${o.id}`)?.value || "Option";
     table += `<tr><td><strong>${name}</strong></td>`;
@@ -119,10 +115,24 @@ function renderResults(data) {
   }
 
   data.ranking.forEach((item, index) => {
-    let html = `<div class="result-card">
-      <h3>#${index + 1} ${item.optionName}</h3>
-      <p>Score: <strong>${item.totalScore.toFixed(3)}</strong></p>
-    </div>`;
-    resultsDiv.innerHTML += html;
+    const safeScore = Number(item.totalScore);
+    let breakdownHtml = `<div class="breakdown"><h4>Explanation:</h4><ul>`;
+    item.breakdown.forEach(b => {
+      breakdownHtml += `<li><strong>${b.criterion}</strong>: ${b.contribution.toFixed(3)}</li>`;
+    });
+    breakdownHtml += `</ul></div>`;
+
+    const insightHtml = item.insight ? `<p class="insight">💡 ${item.insight}</p>` : "";
+
+    resultsDiv.innerHTML += `
+      <div class="result-card ${index === 0 ? "winner" : ""}">
+        <div class="result-card-content">
+          <h3>#${index + 1} ${item.optionName}</h3>
+          <p>Score: <strong>${safeScore.toFixed(3)}</strong></p>
+          ${index === 0 ? insightHtml : ""}
+          ${breakdownHtml}
+        </div>
+      </div>
+    `;
   });
 }

@@ -2,47 +2,73 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Decision Companion System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decision Companion | Multi-Criteria Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
   <h1>Decision Companion System</h1>
-  <div class="header-input">
-    <input type="text" id="decisionName" placeholder="Enter Decision Name">
+  <div class="header-input-container">
+    <input type="text" id="decisionName" placeholder="Please enter decision name">
   </div>
 </header>
 
 <main class="container">
-  <section class="column">
-    <h2>1. Criteria</h2>
-    <p class="instruction">Define what matters (e.g., Price, Quality).</p>
-    <div id="criteriaList"></div>
-    <button class="btn-add" onclick="addCriterion()">+ Add Criterion</button>
-  </section>
-
-  <section class="column">
-    <h2>2. Options & Data</h2>
-    <p class="instruction">List your choices and rate them.</p>
-    <div id="optionsList"></div>
-    <button class="btn-add" onclick="addOption()">+ Add Option</button>
-    
-    <div class="matrix-wrapper">
-      <h3>Values Matrix</h3>
-      <div id="matrixContainer"></div>
+  <section class="column" id="criteria-section">
+    <div class="column-header">
+      <h2>1. Define Criteria</h2>
+      <p class="instruction">What factors matter most to you?</p>
     </div>
-    
-    
+    <div id="criteriaList" class="list-container"></div>
+    <button class="btn-add" onclick="addCriterion()">
+      <span class="icon">+</span> Add New Criterion
+    </button>
   </section>
 
-  <section class="column result-column">
-    <h2>3. Final Ranking</h2>
-    <p class="instruction">The best choice based on your data.</p>
-    <div id="results"></div>
+  <section class="column" id="options-section">
+    <div class="column-header">
+      <h2>2. List Options</h2>
+      <p class="instruction">Compare your potential choices.</p>
+    </div>
+    <div id="optionsList" class="list-container"></div>
+    <button class="btn-add" onclick="addOption()">
+      <span class="icon">+</span> Add New Option
+    </button>
+  </section>
+
+  <section class="column result-column" id="results-section">
+    <div class="column-header">
+      <h2>3. Analysis Results</h2>
+      <p class="instruction">The optimal choice.</p>
+    </div>
+    <div id="results" class="results-container">
+      <div class="empty-state">
+        <p>Complete steps 1 and 2 to see your ranking.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="matrix-section">
+    <div class="column-header">
+      <h2>4. Data Entry Matrix</h2>
+      <p class="instruction">Enter scores for each option against your criteria.</p>
+    </div>
+    <div class="matrix-wrapper">
+      <div id="matrixContainer">
+        <p class="placeholder-text">Add criteria and options to see the matrix.</p>
+      </div>
+    </div>
   </section>
 </main>
-<button class="btn-evaluate" onclick="evaluateDecision()">Evaluate Results</button>
+
+<footer class="action-bar">
+  <button class="btn-secondary" onclick="window.location.reload()">Clear All</button>
+  <button class="btn-evaluate" onclick="evaluateDecision()">Run Decision Analysis</button>
+</footer>
+
 <script src="script.js"></script>
 </body>
 </html>
