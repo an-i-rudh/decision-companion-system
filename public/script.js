@@ -8,9 +8,16 @@ function addCriterion() {
   const div = document.createElement("div");
   div.id = `c-row-${id}`;
   div.className = "input-group";
+  // Inside script.js -> function addCriterion()
   div.innerHTML = `
     <input placeholder="Name" id="c-name-${id}" oninput="renderMatrix()">
-    <input type="number" placeholder="Wght" id="c-weight-${id}" style="width:60px">
+    <input type="number" 
+          placeholder="Wght" 
+          id="c-weight-${id}" 
+          style="width:60px" 
+          min="1" 
+          max="10" 
+          value="5">
     <select id="c-type-${id}">
       <option value="benefit">Gain</option>
       <option value="cost">Cost</option>
@@ -71,37 +78,70 @@ function renderMatrix() {
 
 async function evaluateDecision() {
   const resultsDiv = document.getElementById("results");
-  resultsDiv.innerHTML = "Evaluating...";
 
-  const structuredCriteria = criteria.map(c => ({
-    name: document.getElementById(`c-name-${c.id}`).value || "Unnamed",
-    weight: parseFloat(document.getElementById(`c-weight-${c.id}`).value) || 1,
-    type: document.getElementById(`c-type-${c.id}`).value
-  }));
+  // 1. Validate Criteria and Weights
+  if (criteria.length === 0 || options.length === 0) {
+    resultsDiv.innerHTML = `<p style="color:orange">Please add at least one criterion and one option.</p>`;
+    return;
+  }
 
+  const structuredCriteria = [];
+  for (const c of criteria) {
+    const nameInput = document.getElementById(`c-name-${c.id}`);
+    const weightInput = document.getElementById(`c-weight-${c.id}`);
+    const typeInput = document.getElementById(`c-type-${c.id}`);
+    
+    const weight = parseFloat(weightInput.value);
+
+    // Validation for weight between 1 and 10
+    if (isNaN(weight) || weight < 1 || weight > 10) {
+      alert(`Weight for "${nameInput.value || 'Criterion'}" must be between 1 and 10.`);
+      weightInput.focus();
+      return; // Stop execution if validation fails
+    }
+
+    structuredCriteria.push({
+      name: nameInput.value || "Unnamed",
+      weight: weight,
+      type: typeInput.value
+    });
+  }
+
+  // 2. Structure Options Data
   const structuredOptions = options.map(o => {
     const values = {};
     criteria.forEach(c => {
+      const critName = document.getElementById(`c-name-${c.id}`).value || "Unnamed";
       const val = document.getElementById(`value-${o.id}-${c.id}`).value;
-      values[document.getElementById(`c-name-${c.id}`).value] = parseFloat(val) || 0;
+      values[critName] = parseFloat(val) || 0;
     });
-    return { name: document.getElementById(`o-name-${o.id}`).value || "Unnamed", values };
+    return { 
+      name: document.getElementById(`o-name-${o.id}`).value || "Unnamed", 
+      values 
+    };
   });
+
+  // 3. Send to Server
+  resultsDiv.innerHTML = "Evaluating...";
 
   try {
     const response = await fetch("/api/decision/evaluate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: document.getElementById("decisionName").value,
+        name: document.getElementById("decisionName").value || "New Decision",
         criteria: structuredCriteria,
         options: structuredOptions
       })
     });
+
+    if (!response.ok) throw new Error("Server responded with an error.");
+
     const data = await response.json();
     renderResults(data);
   } catch (err) {
-    resultsDiv.innerHTML = `<p style="color:red">Error connecting to server.</p>`;
+    console.error("Evaluation Error:", err);
+    resultsDiv.innerHTML = `<p style="color:red">Error connecting to server. Please ensure the backend is running.</p>`;
   }
 }
 
