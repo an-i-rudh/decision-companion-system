@@ -67,29 +67,9 @@ function insertOptionValues(optionIds, criterionIds, valuesMatrix) {
     insertMany();
 }
 
-function fetchDecisionData(decisionId) {
-    const options = db.prepare(`
-        SELECT * FROM options WHERE decision_id = ?
-    `).all(decisionId);
-
-    const criteria = db.prepare(`
-        SELECT * FROM criteria WHERE decision_id = ?
-    `).all(decisionId);
-
-    const values = db.prepare(`
-        SELECT * FROM option_values
-        WHERE option_id IN (
-            SELECT id FROM options WHERE decision_id = ?
-        )
-    `).all(decisionId);
-
-    return { options, criteria, values };
-}
-
 module.exports = {
     createDecision,
     insertOptions,
     insertCriteria,
     insertOptionValues,
-    fetchDecisionData
 };
